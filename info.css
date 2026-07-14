@@ -1,0 +1,423 @@
+/* ============================================
+   Show Details — info.css
+   A record "issued" from the backend, styled
+   like a badge being printed and held under light.
+   ============================================ */
+
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap");
+
+:root {
+  /* Palette */
+  --bg-deep: #070b14;
+  --bg-mid: #0d1626;
+  --bg-warm: #112436;
+  --ink: #eaf4ff;
+  --ink-dim: #8faac4;
+  --amber: #7dd3fc;
+  --mint: #38bdf8;
+  --glass: rgba(125, 211, 252, 0.05);
+  --glass-border: rgba(125, 211, 252, 0.16);
+
+  /* Type */
+  --font-display: "Space Grotesk", sans-serif;
+  --font-body: "Inter", sans-serif;
+
+  /* Rhythm */
+  --radius-lg: 22px;
+  --radius-sm: 10px;
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  font-family: var(--font-body);
+  color: var(--ink);
+  background-image:
+    radial-gradient(
+      circle at 15% 10%,
+      rgba(125, 211, 252, 0.08),
+      transparent 45%
+    ),
+    radial-gradient(
+      circle at 85% 90%,
+      rgba(56, 189, 248, 0.08),
+      transparent 45%
+    ),
+    linear-gradient(
+      160deg,
+      var(--bg-deep) 0%,
+      var(--bg-mid) 50%,
+      var(--bg-warm) 100%
+    );
+  background-attachment: fixed;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 64px 20px 100px;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Faint ambient grain / drifting glow for "the page is alive" feel */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(
+    circle at 30% 30%,
+    rgba(255, 255, 255, 0.05),
+    transparent 35%
+  );
+  animation: drift 14s ease-in-out infinite alternate;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes drift {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  100% {
+    transform: translate(4%, 6%) scale(1.08);
+  }
+}
+
+/* ---------- Header ---------- */
+
+.container {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  max-width: 640px;
+  opacity: 0;
+  animation: riseIn 0.7s var(--ease) forwards;
+}
+
+.container h1 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2.2rem, 5vw, 3.2rem);
+  letter-spacing: -0.02em;
+  background: linear-gradient(
+    100deg,
+    var(--ink) 30%,
+    var(--amber) 60%,
+    var(--mint) 90%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin-bottom: 14px;
+}
+
+.container h3 {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 1rem;
+  color: var(--ink-dim);
+  line-height: 1.6;
+  letter-spacing: 0.01em;
+}
+
+/* ---------- Details / Card grid ---------- */
+
+.details {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 1100px;
+  margin-top: 56px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 340px));
+  justify-content: center;
+  gap: 28px;
+}
+
+/* Card: the "badge issued from the backend" moment */
+.card {
+  position: relative;
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  padding: 32px 28px 28px;
+  box-shadow:
+    0 10px 30px rgba(2, 6, 16, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+
+  opacity: 0;
+  transform: translateY(28px) scale(0.96);
+  animation: issueCard 0.7s var(--ease) forwards;
+  animation-delay: calc(var(--card-index, 0) * 0.12s + 0.25s);
+
+  transition:
+    transform 0.45s var(--ease),
+    box-shadow 0.45s var(--ease),
+    border-color 0.45s var(--ease);
+
+  will-change: transform;
+}
+
+/* Live-data indicator: a slow pulsing seam of light around the edge,
+   signaling the card is reflecting a connected backend record. */
+.card::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0%,
+    var(--amber) 8%,
+    transparent 20%,
+    transparent 70%,
+    var(--mint) 80%,
+    transparent 92%
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0.55;
+  animation: rotateSeam 6s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes rotateSeam {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(125, 211, 252, 0.32);
+  box-shadow:
+    0 18px 40px rgba(2, 6, 16, 0.55),
+    0 0 0 1px rgba(125, 211, 252, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+@keyframes issueCard {
+  0% {
+    opacity: 0;
+    transform: translateY(28px) scale(0.96);
+    filter: blur(4px);
+  }
+  60% {
+    filter: blur(0);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Corner stamp label — like a badge tag, reinforces "this is issued data" */
+.card::after {
+  content: "RECORD";
+  position: absolute;
+  top: 16px;
+  right: 18px;
+  font-family: var(--font-body);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--mint);
+  background: rgba(56, 189, 248, 0.12);
+  border: 1px solid rgba(56, 189, 248, 0.32);
+  padding: 3px 8px;
+  border-radius: 999px;
+}
+
+.card h2 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.5rem;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin-bottom: 18px;
+  padding-right: 70px; /* keep clear of the corner stamp */
+}
+
+.card p {
+  font-size: 0.95rem;
+  color: var(--ink-dim);
+  line-height: 1.9;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  padding-top: 10px;
+  margin-top: 8px;
+  transition: color 0.3s var(--ease);
+}
+
+.card p:first-of-type {
+  border-top: none;
+  padding-top: 0;
+  margin-top: 0;
+}
+
+.card:hover p {
+  color: var(--ink);
+}
+
+/* Split "Label: value" text into aligned columns without changing markup,
+   by styling the natural text flow — keeps it readable, badge-like. */
+.card p::before {
+  content: "";
+}
+
+/* ---------- Loading skeleton state (optional hook for backend fetch) ---------- */
+
+.card.is-loading h2,
+.card.is-loading p {
+  color: transparent;
+  position: relative;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: var(--radius-sm);
+}
+
+.card.is-loading h2::after,
+.card.is-loading p::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    100deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.12) 50%,
+    transparent 70%
+  );
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* ---------- Entrance for header ---------- */
+
+@keyframes riseIn {
+  from {
+    opacity: 0;
+    transform: translateY(-14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 480px) {
+  body {
+    padding: 44px 16px 80px;
+  }
+
+  .card {
+    padding: 26px 20px 22px;
+  }
+
+  .card h2 {
+    padding-right: 0;
+    margin-bottom: 22px;
+  }
+
+  .card::after {
+    top: 14px;
+    right: 14px;
+  }
+}
+
+/* Visible keyboard focus, in case cards/buttons become interactive */
+a:focus-visible,
+button:focus-visible,
+.card:focus-visible {
+  outline: 2px solid var(--amber);
+  outline-offset: 3px;
+}
+
+/* ---------- Remove button ---------- */
+
+.button {
+  display: flex;
+  justify-content: center;
+  margin-top: 36px;
+  position: relative;
+  z-index: 1;
+}
+
+#generate {
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #ffd7d7;
+  background: rgba(248, 113, 113, 0.1);
+  border: 1px solid rgba(248, 113, 113, 0.35);
+  padding: 11px 28px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+
+  transition:
+    transform 0.3s var(--ease),
+    background-color 0.3s var(--ease),
+    border-color 0.3s var(--ease),
+    box-shadow 0.3s var(--ease),
+    color 0.3s var(--ease);
+}
+
+#generate:hover {
+  background: rgba(248, 113, 113, 0.18);
+  border-color: rgba(248, 113, 113, 0.6);
+  color: #fff1f1;
+  transform: translateY(-2px);
+  box-shadow:
+    0 10px 24px rgba(248, 113, 113, 0.18),
+    0 0 0 1px rgba(248, 113, 113, 0.2);
+}
+
+#generate:active {
+  transform: translateY(0);
+  background: rgba(248, 113, 113, 0.28);
+  box-shadow: none;
+}
+
+#generate:focus-visible {
+  outline: 2px solid #f87171;
+  outline-offset: 3px;
+}

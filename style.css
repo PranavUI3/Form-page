@@ -1,0 +1,342 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* 1. BRIGHTER, LUMINOUS BACKGROUND */
+body {
+  background: linear-gradient(
+    135deg,
+    #0d1330 0%,
+    #142850 35%,
+    #25124e 70%,
+    #3b124d 100%
+  );
+  background-size: 400% 400%;
+  animation: gradientBG 12s ease infinite;
+  min-height: 100vh;
+  color: #ffffff;
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    sans-serif;
+  overflow-x: hidden;
+  /* Prevents horizontal scrollbars entirely */
+}
+
+@keyframes gradientBG {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* 2. MAIN CONTAINER 
+   Changed padding to 40px 20px so vertical expanding components don't clip the edges 
+*/
+main {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+}
+
+/* ==========================================
+   HEADER, LOGO, & HEADING STYLES
+   ========================================== */
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 28px;
+  text-align: center;
+}
+
+.logo {
+  height: 100px;
+  width: 100px;
+  border-radius: 25px;
+  object-fit: cover;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 4px;
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.2),
+    0 0 15px rgba(168, 85, 247, 0.2);
+  margin-bottom: 16px;
+  transition:
+    transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.3s ease;
+}
+
+.logo:hover {
+  transform: translateY(-4px) rotate(3deg);
+  box-shadow:
+    0 12px 28px rgba(0, 0, 0, 0.3),
+    0 0 25px rgba(217, 70, 239, 0.4);
+}
+
+.heading {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 4px;
+  background: linear-gradient(135deg, #ffffff 30%, #e9d5ff 70%, #d946ef 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
+}
+
+.header p {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 400;
+}
+
+/* 3. POPPING GLASSMORPHISM FORM */
+.form {
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 24px;
+  padding: 35px 30px;
+  width: 100%;
+  max-width: 350px;
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  box-shadow:
+    0 20px 40px rgba(0, 0, 0, 0.25),
+    0 0 40px rgba(168, 85, 247, 0.15);
+  animation: formEntrance 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes formEntrance {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.name,
+.email,
+.rollno {
+  margin-bottom: 20px;
+}
+
+/* 4. BRIGHTER LABELS */
+.name label,
+.email label,
+.rollno label {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.55);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  transition: color 0.3s ease;
+}
+
+.name:focus-within label,
+.email:focus-within label,
+.rollno:focus-within label {
+  color: #c084fc;
+}
+
+/* 5. VIBRANT INPUT FIELDS */
+.name input,
+.email input,
+.rollno input {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  padding: 10px 12px;
+  color: #fff;
+  font-size: 14px;
+  outline: none;
+  font-family: inherit;
+  transition:
+    border-color 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+    background-color 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.name input:focus,
+.email input:focus,
+.rollno input:focus {
+  border-color: rgba(192, 132, 252, 0.8);
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 18px rgba(192, 132, 252, 0.35);
+}
+
+.name input::placeholder,
+.email input::placeholder,
+.rollno input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.submit {
+  margin-top: 12px;
+  display: flex;
+  justify-content: center;
+}
+
+/* 6. HIGH-SATURATION GLOW BUTTON */
+#submit {
+  margin-top: 12px;
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #8b5cf6, #d946ef);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 0.03em;
+  font-family: inherit;
+  box-shadow: 0 4px 20px rgba(139, 92, 246, 0.4);
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.2s ease;
+}
+
+#submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(217, 70, 239, 0.5);
+}
+
+#submit:active {
+  transform: translateY(0) scale(0.98);
+  box-shadow: 0 2px 10px rgba(139, 92, 246, 0.3);
+}
+
+/* 7. ERROR STATE */
+.error {
+  color: #ff6b6b;
+  font-size: 11px;
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: rgba(255, 107, 107, 0.12);
+  border: 1px solid rgba(255, 107, 107, 0.3);
+  border-left: 3px solid #ff6b6b;
+  border-radius: 8px;
+  animation: errorSlide 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  opacity: 0;
+
+  /* Critical structural fixes */
+  width: 100%;
+  word-break: break-word;
+}
+
+.error::before {
+  content: "⚠";
+  font-size: 13px;
+  flex-shrink: 0;
+}
+
+@keyframes errorSlide {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.masti {
+  padding: 10px;
+  margin-top: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+}
+
+.masti a {
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.7);
+  transition: color 0.2s ease;
+}
+
+.masti a:hover {
+  color: #ffffff;
+}
+
+/* ==========================================
+   RESPONSIVE MEDIA QUERIES
+   ========================================== */
+
+/* Tablets & Small Laptops (e.g., iPad, Nexus 7) */
+@media screen and (max-width: 768px) {
+  main {
+    padding: 30px 15px;
+  }
+
+  .form {
+    max-width: 340px;
+    padding: 30px 24px;
+  }
+}
+
+/* Standard Mobile & iPhones (e.g., iPhone 13/14/15, Samsung Galaxy) */
+@media screen and (max-width: 480px) {
+  main {
+    padding: 20px 12px;
+    align-items: flex-start;
+    /* Falls back cleanly on short mobile screen heights */
+  }
+
+  .form {
+    max-width: 100%;
+    padding: 25px 20px;
+    border-radius: 20px;
+  }
+
+  .logo {
+    height: 85px;
+    width: 85px;
+    border-radius: 20px;
+  }
+
+  .heading {
+    font-size: 21px;
+  }
+}
+
+/* Small screen mobile devices (e.g., iPhone SE) */
+@media screen and (max-width: 360px) {
+  .form {
+    padding: 20px 15px;
+  }
+
+  .heading {
+    font-size: 19px;
+  }
+}

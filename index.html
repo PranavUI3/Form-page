@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Form Page</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <main>
+      <div class="form">
+        <div class="header">
+          <img class="logo" src="download.jpg" alt="user-face" />
+          <h1 class="heading">Create your account</h1>
+        </div>
+        <form>
+          <div class="name">
+            <label for="name">Name</label>
+            <input type="text" id="name" autocomplete="off" required />
+          </div>
+          <div class="email">
+            <label for="email">Email</label>
+            <input type="email" id="email" autocomplete="off" required />
+          </div>
+          <div class="rollno">
+            <label for="rollno">Rollno</label>
+            <input type="text" id="rollno" autocomplete="off" required />
+          </div>
+          <div class="submit">
+            <input type="submit" value="Submit" id="submit" />
+          </div>
+        </form>
+        <small class="masti">
+          <a href="#">Continue with Google</a>
+        </small>
+      </div>
+    </main>
+    <script src="script.js"></script>
+  </body>
+</html>
